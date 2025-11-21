@@ -211,14 +211,14 @@ def generate_svg(attack_data_by_continent, svg_base_content, is_fallback):
     </defs>"""
     
     timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    injection_svg += f'<text x="40" y="80" class="text" font-size="44px">LIVE THREAT MAP</text>'
-    injection_svg += f'<text x="40" y="115" class="text" font-size="24px" fill="#888888">Last updated: {timestamp}</text>'
+    injection_svg += f'<text x="40" y="80" class="text" font-size="44px">CARTE DES MENACES EN TEMPS RÉEL</text>'
+    injection_svg += f'<text x="40" y="115" class="text" font-size="24px" fill="#888888">Dernière mise à jour : {timestamp}</text>'
 
     all_attacks = [attack for attacks in attack_data_by_continent.values() for attack in attacks]
 
     if all_attacks:
         countries = sorted(list(set(attack.get('country') for attack in all_attacks if attack.get('country'))))
-        injection_svg += f'<text x="40" y="160" class="text" font-size="22px" font-weight="bold" fill="#dddddd">Threat Origins:</text>'
+        injection_svg += f'<text x="40" y="160" class="text" font-size="22px" font-weight="bold" fill="#dddddd">Origines des menaces :</text>'
         countries_per_line = 6
         country_chunks = [countries[i:i + countries_per_line] for i in range(0, len(countries), countries_per_line)]
         line_y_start = 190
@@ -230,7 +230,7 @@ def generate_svg(attack_data_by_continent, svg_base_content, is_fallback):
 
     if is_fallback:
         fallback_y = SVG_HEIGHT - 30
-        injection_svg += f'<text x="40" y="{fallback_y}" class="text" font-size="16px" fill="#ffcc00">Data Source: Public Blocklist (Shodan API unavailable)</text>'
+        injection_svg += f'<text x="40" y="{fallback_y}" class="text" font-size="16px" fill="#ffcc00">Sources de données :  Liste de blocage publique</text>'
 
     for lat, lon in CONTINENT_TARGETS.values():
         target_x, target_y = latlon_to_svg(lat, lon)
@@ -242,7 +242,7 @@ def generate_svg(attack_data_by_continent, svg_base_content, is_fallback):
         total_scroll_height = num_items * item_height
         animation_duration = num_items * 1.5
         injection_svg += f'<rect x="{list_x}" y="{list_y}" width="{list_width}" height="350" fill="{LIST_BG_COLOR}" fill-opacity="0.7" rx="15"/>'
-        injection_svg += f'<text x="{list_x + 25}" y="{list_y + 45}" class="text" font-size="28px" font-weight="bold">RECENT THREATS</text>'
+        injection_svg += f'<text x="{list_x + 25}" y="{list_y + 45}" class="text" font-size="28px" font-weight="bold">MENACES RÉCENTES</text>'
         injection_svg += f'<g clip-path="url(#list-clip)"><g>'
         sorted_attack_data = sorted(all_attacks, key=lambda x: x['ip'])
         for i, attack in enumerate(sorted_attack_data * 2):
