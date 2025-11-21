@@ -211,7 +211,7 @@ def generate_svg(attack_data_by_continent, svg_base_content, is_fallback):
     </defs>"""
     
     timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    injection_svg += f'<text x="40" y="80" class="text" font-size="44px">CARTE DES MENACES EN TEMPS RÉEL</text>'
+    injection_svg += f'<text x="40" y="80" class="text" font-weight="bold" text-decoration="underline" font-size="64px">CARTE DES MENACES EN TEMPS RÉEL</text>'
     injection_svg += f'<text x="40" y="115" class="text" font-size="24px" fill="#888888">Dernière mise à jour : {timestamp}</text>'
 
     all_attacks = [attack for attacks in attack_data_by_continent.values() for attack in attacks]
